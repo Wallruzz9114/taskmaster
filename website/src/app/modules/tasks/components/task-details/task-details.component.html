@@ -1,0 +1,40 @@
+<div class="container">
+  <ng-template #loading>
+    <div class="">Loading task</div>
+  </ng-template>
+
+  <div *ngIf="task; else loading">
+    <div class="col-sm-12 row flex-sm-wrap">
+      <div class="col-sm-8">
+        <div class="container">
+          <div>
+            <div class="row">
+              <div class="rounded-circle text-light text-center pt-2 name">
+                {{ task.user.firstName | slice: 0:1 | uppercase
+                }}{{ task.user.lastName | slice: 0:1 | uppercase }}
+              </div>
+              <div class="p-2">
+                <h4>{{ task.name }}</h4>
+              </div>
+            </div>
+
+            <div class="text-justify">
+              {{ task.description }}
+            </div>
+            <div class="">created: {{ task.createdAt }} updated:{{ task.updatedAt }}</div>
+            <div class="font-italic font-weight-bold">
+              <p>
+                Author => {{ task.user.firstName }} {{ task.user.lastName }}
+                {{ task.user.email }}
+              </p>
+            </div>
+            <a class="text-decoration-none" routerLink="/tasks"> back </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>

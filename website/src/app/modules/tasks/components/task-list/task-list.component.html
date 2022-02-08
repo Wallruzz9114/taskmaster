@@ -1,0 +1,93 @@
+<div class="container">
+  <ng-template #loading>
+    <div class="text-center">Loading task</div>
+  </ng-template>
+
+  <div *ngIf="tasks; else loading">
+    <div class="col-sm-12 row flex-sm-wrap">
+      <div class="col-sm-8 flex-wrap">
+        <div class="mb-3">
+          <a class="card-link mt-1 font-weight-bold create" routerLink="/task/new">Create Task</a>
+        </div>
+        <div class="row d-inline">
+          <div class="float-left">
+            <h5 class="pl-4">{{ tasks.length }} Tasks</h5>
+          </div>
+          <div class="col-sm-1 float-right">
+            <div class="bd-highlight">
+              <select
+                (change)="onPageSizeChange($event)"
+                class="custom-select"
+                aria-label="data-page-size"
+              >
+                <option *ngFor="let size of pageSizes" [ngValue]="size">
+                  {{ size }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div *ngIf="tasks.length > 0">
+          <div
+            *ngFor="
+              let task of tasks
+                | paginate
+                  : {
+                      itemsPerPage: pageSize,
+                      currentPage: page,
+                      totalItems: count
+                    }
+            "
+          >
+            <div class="container">
+              <div class="row text-justify">
+                <div
+                  class="rounded-circle text-light pt-2 text-center"
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    background-color: rgb(116, 116, 243);
+                    font-size: 24px;
+                  "
+                >
+                  {{ task.user.firstName | slice: 0:1 | uppercase
+                  }}{{ task.user.lastName | slice: 0:1 | uppercase }}
+                </div>
+                <div class="p-2">
+                  <h4>{{ task.name }}</h4>
+                </div>
+              </div>
+              <div class="text-justify">
+                {{ task.description | slice: 0:150 }}....
+                <a class="pl-2 text-decoration-none" routerLink="/task/{{ task.id }}">
+                  details <i class="fa fa-chevron-down"></i>
+                </a>
+              </div>
+              <div class="">created: {{ task.createdAt }} updated:{{ task.updatedAt }}</div>
+              <div class="font-italic font-weight-bold">
+                <p>
+                  Author => {{ task.user.firstName }} {{ task.user.lastName }}
+                  {{ task.user.email }}
+                </p>
+              </div>
+            </div>
+            <hr />
+          </div>
+          <div class="primary-text-color p-1">
+            <pagination-controls
+              [responsive]="true"
+              previousLabel="Prev"
+              nextLabel="Next"
+              (pageChange)="onPageDataChange($event)"
+            >
+            </pagination-controls>
+          </div>
+        </div>
+        <div *ngIf="tasks.length === 0">
+          <div class="container">There is no tasks Found</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

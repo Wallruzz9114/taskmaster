@@ -22,7 +22,6 @@ yarn-error.log*
 .vercel
 
 Makefile
-ormconfig.json
 schema.json
 
 .pnp
